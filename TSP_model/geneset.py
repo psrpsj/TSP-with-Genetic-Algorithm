@@ -57,7 +57,6 @@ class GeneSet():
         self.data_path = os.path.join("dataset", data_path)
         self.path_file = open(self.data_path, 'r')
         self.path_data = [[int(n) for n in line.split()] for line in self.path_file]
-        print(self.path_data)
         self.gene_set = []
 
         for i in tqdm(range(self.num_gene)):
@@ -70,5 +69,13 @@ class GeneSet():
         represent = ""
         for gene in self.gene_set:
             represent += str(gene) + "\n"
-        return represent
+        return represent[:-1]
+    
+    def set_random_gene(self, index):
+        """Put random gene in specified index
 
+        Args:
+            index (int): index in gene_set to be replaced
+        """
+        new_gene = Gene(self.start_node, self.path_data).gene
+        self.gene_set[index] = new_gene
