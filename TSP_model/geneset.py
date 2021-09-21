@@ -71,9 +71,14 @@ class GeneSet():
             represent += str(gene) + "\n"
         return represent[:-1]
     
+    def set_gene(self, index, gene):
+        self.gene_set[index] = gene
+    
+    def get_gene(self, index):
+        return self.gene_set[index]
+
     def set_random_gene(self, index):
         """Put random gene in specified index
-
         Args:
             index (int): index in gene_set to be replaced
         """
