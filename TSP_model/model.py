@@ -14,7 +14,7 @@ class Genetic_Algorithm():
         Args:
             save_rate (float): the decimal rate of how many genes will be saved
         """
-        self.geneset.gene_set.sort()
+        self.geneset.sort()
         save_index = int(len(self.geneset) * save_rate)
         for i in range(save_index, len(self.geneset)):
             self.geneset.set_random_gene(i)
@@ -28,7 +28,6 @@ class Genetic_Algorithm():
             parent2 (Gene): parent gene to produce offspring
 
         """
-
         # save start node
         start = parent1.gene[0]
         
@@ -47,8 +46,6 @@ class Genetic_Algorithm():
         end_point = max(point1, point2)
 
         # create offspring
-        # offspring1 would have node from parent2 while 
-        # offspring2 would have node from parent1
         offs1_mid = parent2_node[start_point : end_point]
         offs2_mid = parent1_node[start_point : end_point]
 
@@ -58,6 +55,15 @@ class Genetic_Algorithm():
 
         parent1.gene = [start] + parent1_fixed[:start_point] + offs1_mid + parent1_fixed[start_point:] + [start]
         parent2.gene = [start] + parent2_fixed[:start_point] + offs2_mid + parent2_fixed[start_point:] + [start]
+
+    def select_breed_gene(geneset):
+
+        mid_1 = int(len(geneset) * 0.4)
+        mid_2 = int(len(geneset) * 0.7)
+
+        tmp_list = geneset.gene_set[:mid_1] * 3 + geneset.gene_set[mid_1 : mid_2] * 2 + geneset.gene_set[mid_2:]
+        
+        
 
 
     def mutation(self, mutation_rate):
@@ -115,7 +121,7 @@ class Genetic_Algorithm():
             self.mutation(mutation_rate)
 
             # sort and print current-generation min cost and route
-            self.geneset.gene_set.sort()
+            self.geneset.sort()
 
             tmp_min_route = self.geneset.get_gene(0)
             tmp_min_cost = self.geneset.get_gene(0).calculate_cost()

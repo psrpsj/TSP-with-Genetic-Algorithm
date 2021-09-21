@@ -76,6 +76,9 @@ class GeneSet():
         for gene in self.gene_set:
             represent += str(gene) + "\n"
         return represent[:-1]
+
+    def sort(self):
+        self.gene_set.sort()
     
     def get_gene(self, index):
         return self.gene_set[index]
