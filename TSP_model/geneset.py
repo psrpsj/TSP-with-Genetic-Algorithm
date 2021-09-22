@@ -19,7 +19,7 @@ class Gene():
             # append candidate not in gene
             if candidate not in self.gene:
                 self.gene.append(candidate)
-            # add start at the end
+        # add start at the end
         self.gene.append(self.start_node)
 
     def calculate_cost(self):
