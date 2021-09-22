@@ -32,6 +32,12 @@ class Gene():
         for i in range (len(self.gene) -1):
             cost += self.path_data[self.gene[i] - 1][self.gene[i+1] -1]
         return cost
+    
+    def __repr__(self):
+        return str(self.gene)
+
+    def __len__(self):
+        return len(self.gene)
 
     def __eq__(self, other):
         return self.calculate_cost() == other.calculate_cost()
