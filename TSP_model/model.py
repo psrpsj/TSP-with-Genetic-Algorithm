@@ -20,7 +20,7 @@ class Genetic_Algorithm():
             self.geneset.set_random_gene(i)
 
     # adopted from https://www.koreascience.or.kr/article/CFKO200533239321725.pdf
-    def breed(self, parent1: Gene, parent2: Gene):
+    def breed(self, parent1, parent2):
         """ Create 2 offspring genes from 2 parents genes
 
         Args:

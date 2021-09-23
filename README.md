@@ -1,10 +1,24 @@
 # Traveling Salesperson Problem(TSP) with Genetic Algorithm(GA)
- * 유전알고리즘을 통한 외판원 문제 풀이
  * Created and Organized by Sangryu Park
  * CSCI 4511W - Introduction to Artificial Intelligence at UMN in Spring 2021
+ * Reorganized with .py in Sep., 2021
 
-## Traveling Salesperson Problem(TSP, 외판원문제)
-  * 여러 도시들과 각 도시들로 이동하는 비용이 주어졌을때 출발도시에서 모든도시들을 한번씩 방문하고 출발도시로 돌아오는 최소경로를 찾는 문제
+## Project Overview
+  * Find the minimum cost routes that travel all nodes only once and return to start node
+  * Used Genetic Algorithm that inspired from law of biological evolution
 
-## Genetic Algorithm(GA, 유전알고리즘)
-  * 유전변이법칙에서 유래된 알고리즘
+## Run
+```bash
+cd TSP_model
+python3 model.py
+```
+
+## Dataset
+  * five_d.txt: 5 nodes, minimum cost of 19
+  * gr17_d.txt: 17 nodes, minimum cost of 2085
+  * fri26_d.txt: 26 nodes, minimum cost of 937 
+  * dantzig42_d.txt: 42 nodes, minimum cost of 699
+  * att48_d.txt: 48 nodes, minimum cost of 33523
+
+## Assumption
+  * The GA assumes all nodes are connected one to others 
