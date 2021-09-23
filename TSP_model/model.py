@@ -122,5 +122,5 @@ class Genetic_Algorithm():
             print("Generation " + str(number) + " minimum route : ", min_route)
             print("Generation " + str(number) + " minimum cost : ", min_cost)
 
-
-
+        print("Final minimum route : ", min_route)
+        print("Final minimum cost : ", min_cost)
