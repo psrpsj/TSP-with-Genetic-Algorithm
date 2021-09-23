@@ -60,13 +60,13 @@ class GeneSet():
         """
         self.num_gene = num_gene
         self.start_node = start_node
-        self.data_path = os.path.join("dataset", data_path)
+        self.data_path = os.path.join("../dataset", data_path)
         self.path_file = open(self.data_path, 'r')
         self.path_data = [[int(n) for n in line.split()] for line in self.path_file]
         self.gene_set = []
 
         for i in tqdm(range(self.num_gene)):
-            self.gene_set.append(Gene(self.start_node, self.path_data).gene)
+            self.gene_set.append(Gene(self.start_node, self.path_data))
     
     def __len__(self):
         return len(self.gene_set)
@@ -88,5 +88,5 @@ class GeneSet():
         Args:
             index (int): index in gene_set to be replaced
         """
-        new_gene = Gene(self.start_node, self.path_data).gene
+        new_gene = Gene(self.start_node, self.path_data)
         self.gene_set[index] = new_gene

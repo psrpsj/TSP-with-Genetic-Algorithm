@@ -1,8 +1,11 @@
 import random
-from geneset import Gene, GeneSet
+import argparse
+from tqdm import tqdm
+from geneset import Gene
+from geneset import GeneSet
 
 class Genetic_Algorithm():
-    def __init__(self, geneset : GeneSet):
+    def __init__(self, geneset):
         self.geneset = geneset
     
     def introduce_new_gene(self, save_rate):
@@ -17,16 +20,15 @@ class Genetic_Algorithm():
             self.geneset.set_random_gene(i)
 
     # adopted from https://www.koreascience.or.kr/article/CFKO200533239321725.pdf
-    def breed(self, parent1 : Gene, parent2 : Gene):
+    def breed(self, parent1: Gene, parent2: Gene):
         """ Create 2 offspring genes from 2 parents genes
 
         Args:
             parent1 (Gene): parent gene to produce offspring
             parent2 (Gene): parent gene to produce offspring
 
-        Returns:
-            offspring1, offspring2: offspring produced from parents genes
         """
+
         # save start node
         start = parent1.gene[0]
         
@@ -47,17 +49,16 @@ class Genetic_Algorithm():
         # create offspring
         # offspring1 would have node from parent2 while 
         # offspring2 would have node from parent1
-        offs1_mid = parent2[start_point : end_point]
-        offs2_mid = parent1[start_point : end_point]
+        offs1_mid = parent2_node[start_point : end_point]
+        offs2_mid = parent1_node[start_point : end_point]
 
         # remove redundant node in each parent and offspring
         parent1_fixed = [node for node in parent1_node if node not in offs1_mid]
         parent2_fixed = [node for node in parent2_node if node not in offs2_mid]
 
-        offspring1 = [start] + parent1_fixed[:start_point] + offs1_mid + parent1_fixed[-(len(parent1) - end_point)] + [start]
-        offspring2 = [start] + parent2_fixed[:start_point] + offs2_mid + parent2_fixed[-(len(parent2) - end_point)] + [start]
+        parent1.gene = [start] + parent1_fixed[:start_point] + offs1_mid + parent1_fixed[start_point:] + [start]
+        parent2.gene = [start] + parent2_fixed[:start_point] + offs2_mid + parent2_fixed[start_point:] + [start]
 
-        return offspring1, offspring2
 
     def mutation(self, mutation_rate):
         """ Gene to be changed by mutation
@@ -85,7 +86,13 @@ class Genetic_Algorithm():
             already_mutated.append(index)
     
     def train(self, num_generation, new_gene_rate, mutation_rate):
-        
+        """ Find minimum route
+
+        Args:
+            num_generation (int): number of generation the algorithim will run
+            new_gene_rate (float): rate to be use in introduce_new_gene process
+            mutation_rate (float): rate to be use in mutation process 
+        """
         min_route = self.geneset.get_gene(0)
         min_cost = self.geneset.get_gene(0).calculate_cost()
         print("Initial mininum route : ", min_route)
@@ -102,9 +109,7 @@ class Genetic_Algorithm():
             while breed1 == breed2:
                 breed2 = random.randint(0, len(self.geneset) -1)
             
-            offspring1, offspring2 = self.breed(self.geneset.get_gene(breed1), self.geneset.get_gene(breed2))
-            self.geneset.set_gene(breed1, offspring1)
-            self.geneset.set_gene(breed2, offspring2)
+            self.breed(self.geneset.get_gene(breed1), self.geneset.get_gene(breed2))
 
             # mutation
             self.mutation(mutation_rate)
@@ -124,3 +129,22 @@ class Genetic_Algorithm():
 
         print("Final minimum route : ", min_route)
         print("Final minimum cost : ", min_cost)
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+
+    # GeneSet arguments
+    parser.add_argument('--dataset', type=str, default='five_d.txt', help = 'dataset to use to find route (default: five_d.txt)')
+    parser.add_argument('--population', type=int, default=10, help= 'number of genes in geneset (default: 10)')
+    parser.add_argument('--startnode', type=int, default=1, help='number of node route should start and end (defalut: 1)')
+
+    # GA arguments
+    parser.add_argument('--generation', type=int, default=10, help='generation would GA run (defalut: 10)')
+    parser.add_argument('--generate', type=float, default=0.2, help= 'rate of new gene will be introduced in each generation (defalut: 0.2)')
+    parser.add_argument('--mutationrate', type=float, default=0.1, help= 'rate of mutation will occur each generation (defalut: 0.1)')
+
+    args = parser.parse_args()
+
+    data = GeneSet(args.dataset, args.population, args.startnode)
+    GA_test = Genetic_Algorithm(data)
+    GA_test.train(args.generation, args.generate, args.mutationrate)
