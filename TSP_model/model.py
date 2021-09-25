@@ -56,25 +56,31 @@ class Genetic_Algorithm():
         parent1.gene = [start] + parent1_fixed[:start_point] + offs1_mid + parent1_fixed[start_point:] + [start]
         parent2.gene = [start] + parent2_fixed[:start_point] + offs2_mid + parent2_fixed[start_point:] + [start]
 
-    def select_breed_gene(geneset):
-        """Select gene from geneset using 
+    def select_breed_gene(self, selected_index):
+        """Select gene from geneset using Roulette wheel Selection Algorithm
 
         Args:
             geneset (Geneset): Geneset to select genes
 
         Returns:
-            [type]: [description]
+            tuple: Two genes randomly selected
         """
 
-        mid_1 = int(len(geneset) * 0.4)
-        mid_2 = int(len(geneset) * 0.7)
+        mid_1 = int(len(self.geneset) * 0.4)
+        mid_2 = int(len(self.geneset) * 0.7)
 
-        tmp_list = geneset.gene_set[:mid_1] * 3 + geneset.gene_set[mid_1 : mid_2] * 2 + geneset.gene_set[mid_2:]
+        tmp_list = self.geneset.gene_set[:mid_1] * 3 + self.geneset.gene_set[mid_1 : mid_2] * 2 + self.geneset.gene_set[mid_2:]
 
+        # two indicies should not be already have been into breed process and two indicies should not equal 
         gene1_index = random.randint(0, len(tmp_list) - 1)
+        while gene1_index in selected_index:
+            gene1_index = random.randint(0, len(tmp_list) - 1)
+
         gene2_index = random.randint(0, len(tmp_list) - 1)
-        while gene1_index == gene2_index:
+        while gene1_index == gene2_index and gene2_index not in selected_index:
             gene2_index = random.randint(0, len(tmp_list) - 1)
+        
+        selected_index += [gene1_index, gene2_index]
         
         return tmp_list[gene1_index], tmp_list[gene2_index]
 
@@ -104,7 +110,7 @@ class Genetic_Algorithm():
             self.geneset.get_gene(index).gene[index2] = temp
             already_mutated.append(index)
     
-    def train(self, num_generation, new_gene_rate, mutation_rate):
+    def train(self, num_generation, new_gene_rate, breed_time, mutation_rate):
         """ Find minimum route
 
         Args:
@@ -122,13 +128,10 @@ class Genetic_Algorithm():
             self.introduce_new_gene(new_gene_rate)
             
             # breed procedure
-            breed1 = random.randint(0, len(self.geneset) -1)
-            breed2 = random.randint(0, len(self.geneset) -1)
-            
-            while breed1 == breed2:
-                breed2 = random.randint(0, len(self.geneset) -1)
-            
-            self.breed(self.geneset.get_gene(breed1), self.geneset.get_gene(breed2))
+            breed_index = []
+            for _ in range (breed_time):
+                breed1, breed2 = self.select_breed_gene(breed_index)
+                self.breed(breed1, breed2)
 
             # mutation
             self.mutation(mutation_rate)
@@ -159,11 +162,12 @@ if __name__ == '__main__':
 
     # GA arguments
     parser.add_argument('--generation', type=int, default=10, help='generation would GA run (defalut: 10)')
-    parser.add_argument('--generate', type=float, default=0.2, help= 'rate of new gene will be introduced in each generation (defalut: 0.2)')
+    parser.add_argument('--newgenerate', type=float, default=0.2, help= 'rate of new gene will be introduced in each generation (defalut: 0.2)')
+    parser.add_argument("--breednumber", type=int, default=4, help='number of breed will occur in each generation (default: 4)')
     parser.add_argument('--mutationrate', type=float, default=0.1, help= 'rate of mutation will occur each generation (defalut: 0.1)')
 
     args = parser.parse_args()
 
     data = GeneSet(args.dataset, args.population, args.startnode)
     GA_test = Genetic_Algorithm(data)
-    GA_test.train(args.generation, args.generate, args.mutationrate)
+    GA_test.train(args.generation, args.newgenerate, args.breednumber, args.mutationrate)
