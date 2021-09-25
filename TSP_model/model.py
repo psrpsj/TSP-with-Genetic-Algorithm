@@ -57,13 +57,26 @@ class Genetic_Algorithm():
         parent2.gene = [start] + parent2_fixed[:start_point] + offs2_mid + parent2_fixed[start_point:] + [start]
 
     def select_breed_gene(geneset):
+        """Select gene from geneset using 
+
+        Args:
+            geneset (Geneset): Geneset to select genes
+
+        Returns:
+            [type]: [description]
+        """
 
         mid_1 = int(len(geneset) * 0.4)
         mid_2 = int(len(geneset) * 0.7)
 
         tmp_list = geneset.gene_set[:mid_1] * 3 + geneset.gene_set[mid_1 : mid_2] * 2 + geneset.gene_set[mid_2:]
+
+        gene1_index = random.randint(0, len(tmp_list) - 1)
+        gene2_index = random.randint(0, len(tmp_list) - 1)
+        while gene1_index == gene2_index:
+            gene2_index = random.randint(0, len(tmp_list) - 1)
         
-        
+        return tmp_list[gene1_index], tmp_list[gene2_index]
 
 
     def mutation(self, mutation_rate):
