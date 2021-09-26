@@ -1,8 +1,6 @@
 import random
 import argparse
-from tqdm import tqdm
-from geneset import Gene
-from geneset import GeneSet
+from geneset import Gene, GeneSet
 
 class Genetic_Algorithm():
     def __init__(self, geneset):
