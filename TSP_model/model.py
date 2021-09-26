@@ -118,6 +118,7 @@ class Genetic_Algorithm():
         Args:
             num_generation (int): number of generation the algorithim will run
             new_gene_rate (float): rate to be use in introduce_new_gene process
+            breed_time (int): number of breed should be run in each generation (should not be over the half of number of gene)
             mutation_rate (float): rate to be use in mutation process 
         """
         min_route = self.geneset.get_gene(0)
@@ -157,18 +158,20 @@ class Genetic_Algorithm():
         print("Final minimum route : ", min_route)
         print("Final minimum cost : ", min_cost)
 
+        return min_cost
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
     # GeneSet arguments
-    parser.add_argument('--dataset', type=str, default='five_d.txt', help = 'dataset to use to find route (default: five_d.txt)')
-    parser.add_argument('--population', type=int, default=10, help= 'number of genes in geneset (default: 10)')
+    parser.add_argument('--dataset', type=str, default='att48_d.txt', help = 'dataset to use to find route (default: five_d.txt)')
+    parser.add_argument('--population', type=int, default=100, help= 'number of genes in geneset (default: 10)')
     parser.add_argument('--startnode', type=int, default=1, help='number of node route should start and end (defalut: 1)')
 
     # GA arguments
-    parser.add_argument('--generation', type=int, default=10, help='generation would GA run (defalut: 10)')
-    parser.add_argument('--newgenerate', type=float, default=0.2, help= 'rate of new gene will be introduced in each generation (defalut: 0.2)')
-    parser.add_argument("--breednumber", type=int, default=4, help='number of breed will occur in each generation (default: 4)')
+    parser.add_argument('--generation', type=int, default=80, help='generation would GA run (defalut: 10)')
+    parser.add_argument('--newgenerate', type=float, default=0.9, help= 'rate of new gene will be introduced in each generation (defalut: 0.2)')
+    parser.add_argument("--breednumber", type=int, default=40, help='number of breed will occur in each generation (default: 4)')
     parser.add_argument('--mutationrate', type=float, default=0.1, help= 'rate of mutation will occur each generation (defalut: 0.1)')
 
     args = parser.parse_args()
