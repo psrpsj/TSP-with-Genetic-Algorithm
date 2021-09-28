@@ -1,7 +1,7 @@
 # Traveling Salesperson Problem(TSP) with Genetic Algorithm(GA)
  * Created and Organized by Sangryu Park
  * CSCI 4511W - Introduction to Artificial Intelligence at UMN in Spring 2021
- * Reorganized with python3 in Sep., 2021
+ * Reorganized with python in Sep., 2021
 
 ## Project Overview
   * Find the minimum cost routes that travel all nodes only once and return to start node
