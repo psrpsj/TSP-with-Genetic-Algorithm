@@ -22,3 +22,6 @@ python3 model.py
 
 ## Assumption
   * The GA assumes all nodes are connected one to others 
+
+## Detail
+ * Detail would be updated
