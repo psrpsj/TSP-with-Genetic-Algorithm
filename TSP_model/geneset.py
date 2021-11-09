@@ -65,7 +65,7 @@ class GeneSet():
         self.path_data = [[int(n) for n in line.split()] for line in self.path_file]
         self.gene_set = []
 
-        for i in tqdm(range(self.num_gene)):
+        for i in range(self.num_gene):
             self.gene_set.append(Gene(self.start_node, self.path_data))
     
     def __len__(self):
@@ -82,6 +82,15 @@ class GeneSet():
     
     def get_gene(self, index):
         return self.gene_set[index]
+
+    def set_gene_route(self, index, route):
+        """ Change gene route in specified index
+
+        Args:
+            index (int): index of gene to select
+            route (list): route that gene should be changed
+        """
+        self.gene_set[index].gene = route
 
     def set_random_gene(self, index):
         """Put random gene in specified index
