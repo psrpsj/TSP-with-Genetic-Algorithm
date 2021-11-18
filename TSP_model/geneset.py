@@ -1,10 +1,10 @@
 import os
 import random
-from tqdm import tqdm
 
-class Gene():
-    def __init__ (self, start_node, path_data):
-        """Initialize gene 
+
+class Gene:
+    def __init__(self, start_node, path_data):
+        """Initialize gene
 
         Args:
             start_node (int): number of node that gene should start
@@ -29,10 +29,10 @@ class Gene():
             cost (int): cost of gene
         """
         cost = 0
-        for i in range (len(self.gene) -1):
-            cost += self.path_data[self.gene[i] - 1][self.gene[i+1] -1]
+        for i in range(len(self.gene) - 1):
+            cost += self.path_data[self.gene[i] - 1][self.gene[i + 1] - 1]
         return cost
-    
+
     def __repr__(self):
         return str(self.gene)
 
@@ -41,16 +41,17 @@ class Gene():
 
     def __eq__(self, other):
         return self.calculate_cost() == other.calculate_cost()
-    
-    def __lt__(self,other):
-        return self.calculate_cost() < other.calculate_cost()
-    
 
-class GeneSet():
+    def __lt__(self, other):
+        return self.calculate_cost() < other.calculate_cost()
+
+
+class GeneSet:
     """
-    list of gene 
+    list of gene
     """
-    def __init__ (self, data_path, num_gene, start_node):
+
+    def __init__(self, data_path, num_gene, start_node):
         """Initialize the Geneset with number of gene specified
 
         Args:
@@ -61,13 +62,13 @@ class GeneSet():
         self.num_gene = num_gene
         self.start_node = start_node
         self.data_path = os.path.join("../dataset", data_path)
-        self.path_file = open(self.data_path, 'r')
+        self.path_file = open(self.data_path, "r")
         self.path_data = [[int(n) for n in line.split()] for line in self.path_file]
         self.gene_set = []
 
-        for i in range(self.num_gene):
+        for _ in range(self.num_gene):
             self.gene_set.append(Gene(self.start_node, self.path_data))
-    
+
     def __len__(self):
         return len(self.gene_set)
 
@@ -79,12 +80,12 @@ class GeneSet():
 
     def sort(self):
         self.gene_set.sort()
-    
+
     def get_gene(self, index):
         return self.gene_set[index]
 
     def set_gene_route(self, index, route):
-        """ Change gene route in specified index
+        """Change gene route in specified index
 
         Args:
             index (int): index of gene to select

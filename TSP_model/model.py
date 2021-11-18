@@ -207,19 +207,19 @@ if __name__ == "__main__":
     parser.add_argument(
         "--generation",
         type=int,
-        default=80,
+        default=10,
         help="generation would GA run (defalut: 10)",
     )
     parser.add_argument(
         "--newgenerate",
         type=float,
-        default=0.9,
+        default=0.2,
         help="rate of new gene will be introduced in each generation (defalut: 0.2)",
     )
     parser.add_argument(
         "--breednumber",
         type=int,
-        default=40,
+        default=4,
         help="number of breed will occur in each generation (default: 4)",
     )
     parser.add_argument(

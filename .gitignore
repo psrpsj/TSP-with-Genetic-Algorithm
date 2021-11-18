@@ -2,3 +2,4 @@
 TSP-Genetic Algorithm.pdf
 *.pyc
 TSP_model/TSP_experiment.ipynb
+.vscode
