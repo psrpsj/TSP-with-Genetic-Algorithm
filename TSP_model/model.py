@@ -48,11 +48,11 @@ class Genetic_Algorithm:
             parent2_node = parent2.gene[1:-1]
 
             # select random index
-            point1 = random.randint(0, len(parent1) - 1)
-            point2 = random.randint(0, len(parent1) - 1)
+            point1 = random.randint(0, len(parent1_node) - 1)
+            point2 = random.randint(0, len(parent1_node) - 1)
 
             while point1 == point2:
-                point2 = random.randint(0, len(parent1) - 1)
+                point2 = random.randint(0, len(parent1_node) - 1)
 
             start_point = min(point1, point2)
             end_point = max(point1, point2)
@@ -146,6 +146,7 @@ class Genetic_Algorithm:
         print("Initial mininum route : ", min_route)
         print("Initial minimum cost : ", min_cost)
 
+        # GA Process
         for number in range(1, num_generation + 1):
             # introduce new gene in geneset
             introduce_new_gene(new_gene_rate)
