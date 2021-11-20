@@ -30,16 +30,31 @@ class Genetic_Algorithm:
                 self.geneset.set_random_gene(i)
 
         # adopted from https://www.koreascience.or.kr/article/CFKO200533239321725.pdf
-        def breed(parent1, parent2):
-            """Create 2 offspring genes from 2 parents genes
+        def breed(candidate_list, selected_index):
+            """Create offspring from gene list
 
             Args:
-                parent1 (Gene): parent gene to produce offspring
-                parent2 (Gene): parent gene to produce offspring
+                candidate_list (Geneset): Geneset to select parent genes
+                selected_index (list[int]): list of index that already use for breed
 
             Returns:
-                tuple: Two routes that would be offspring from two parents gene
+                offspring1, offspring2: Gene that create after breed process
             """
+            # two indicies should not be already have been into breed process and
+            # two indicies should not equal
+            gene1_index = random.randint(0, len(candidate_list) - 1)
+            while gene1_index in selected_index:
+                gene1_index = random.randint(0, len(candidate_list) - 1)
+
+            gene2_index = random.randint(0, len(candidate_list) - 1)
+            while gene1_index == gene2_index or gene2_index in selected_index:
+                gene2_index = random.randint(0, len(candidate_list) - 1)
+
+            selected_index += [gene1_index, gene2_index]
+
+            parent1 = candidate_list[gene1_index]
+            parent2 = candidate_list[gene2_index]
+
             # save start node
             start = parent1.gene[0]
 
@@ -65,14 +80,14 @@ class Genetic_Algorithm:
             parent1_fixed = [node for node in parent1_node if node not in offs1_mid]
             parent2_fixed = [node for node in parent2_node if node not in offs2_mid]
 
-            route1 = (
+            offspring1 = (
                 [start]
                 + parent1_fixed[:start_point]
                 + offs1_mid
                 + parent1_fixed[start_point:]
                 + [start]
             )
-            route2 = (
+            offspring2 = (
                 [start]
                 + parent2_fixed[:start_point]
                 + offs2_mid
@@ -80,39 +95,7 @@ class Genetic_Algorithm:
                 + [start]
             )
 
-            return route1, route2
-
-        def select_breed_gene(selected_index):
-            """Select gene from geneset using Roulette wheel Selection Algorithm
-
-            Args:
-                geneset (Geneset): Geneset to select genes
-
-            Returns:
-                tuple: Two genes randomly selected
-            """
-
-            mid_1 = int(len(self.geneset) * 0.3)
-            mid_2 = int(len(self.geneset) * 0.7)
-
-            tmp_list = (
-                self.geneset.gene_set[:mid_1] * 4
-                + self.geneset.gene_set[mid_1:mid_2] * 3
-                + self.geneset.gene_set[mid_2:]
-            )
-
-            # two indicies should not be already have been into breed process and two indicies should not equal
-            gene1_index = random.randint(0, len(tmp_list) - 1)
-            while gene1_index in selected_index:
-                gene1_index = random.randint(0, len(tmp_list) - 1)
-
-            gene2_index = random.randint(0, len(tmp_list) - 1)
-            while gene1_index == gene2_index and gene2_index not in selected_index:
-                gene2_index = random.randint(0, len(tmp_list) - 1)
-
-            selected_index += [gene1_index, gene2_index]
-
-            return tmp_list[gene1_index], tmp_list[gene2_index]
+            return offspring1, offspring2
 
         def mutation(mutation_rate):
             """Gene to be changed by mutation
@@ -151,11 +134,21 @@ class Genetic_Algorithm:
             # introduce new gene in geneset
             introduce_new_gene(new_gene_rate)
 
+            # create genes list for breeding using Roulette wheel selection
+            self.geneset.sort()
+            mid_1 = int(len(self.geneset) * 0.3)
+            mid_2 = int(len(self.geneset) * 0.7)
+
+            candidate_list = (
+                self.geneset.gene_set[:mid_1] * 4
+                + self.geneset.gene_set[mid_1:mid_2] * 3
+                + self.geneset.gene_set[mid_2:]
+            )
+
             # breed procedure
-            breed_index = []
+            already_breed = []
             for i in range(1, breed_time * 2 + 1, 2):
-                breed1, breed2 = select_breed_gene(breed_index)
-                breed_result1, breed_result2 = breed(breed1, breed2)
+                breed_result1, breed_result2 = breed(candidate_list, already_breed)
                 self.geneset.set_gene_route(-i, breed_result1)
                 self.geneset.set_gene_route(-i - 1, breed_result2)
 
@@ -194,7 +187,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--population",
         type=int,
-        default=100,
+        default=1000,
         help="number of genes in geneset (default: 10)",
     )
     parser.add_argument(
@@ -208,7 +201,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--generation",
         type=int,
-        default=10,
+        default=1000,
         help="generation would GA run (defalut: 10)",
     )
     parser.add_argument(
@@ -220,7 +213,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--breednumber",
         type=int,
-        default=4,
+        default=10,
         help="number of breed will occur in each generation (default: 4)",
     )
     parser.add_argument(
