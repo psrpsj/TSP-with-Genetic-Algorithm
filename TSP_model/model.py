@@ -126,8 +126,8 @@ class Genetic_Algorithm:
 
         min_route = self.geneset.get_gene(0)
         min_cost = self.geneset.get_gene(0).calculate_cost()
-        print("Initial mininum route : ", min_route)
-        print("Initial minimum cost : ", min_cost)
+        # print("Initial mininum route : ", min_route)
+        # print("Initial minimum cost : ", min_cost)
 
         # GA Process
         for number in range(1, num_generation + 1):
@@ -165,11 +165,11 @@ class Genetic_Algorithm:
                 min_route = tmp_min_route
                 min_cost = tmp_min_cost
 
-            print("Generation " + str(number) + " minimum route : ", min_route)
-            print("Generation " + str(number) + " minimum cost : ", min_cost)
+            # print("Generation " + str(number) + " minimum route : ", min_route)
+            # print("Generation " + str(number) + " minimum cost : ", min_cost)
 
-        print("Final minimum route : ", min_route)
-        print("Final minimum cost : ", min_cost)
+        # print("Final minimum route : ", min_route)
+        # print("Final minimum cost : ", min_cost)
 
         return min_cost
 
