@@ -126,8 +126,8 @@ class Genetic_Algorithm:
 
         min_route = self.geneset.get_gene(0)
         min_cost = self.geneset.get_gene(0).calculate_cost()
-        # print("Initial mininum route : ", min_route)
-        # print("Initial minimum cost : ", min_cost)
+        print("Initial mininum route : ", min_route)
+        print("Initial minimum cost : ", min_cost)
 
         # GA Process
         for number in range(1, num_generation + 1):
@@ -165,11 +165,11 @@ class Genetic_Algorithm:
                 min_route = tmp_min_route
                 min_cost = tmp_min_cost
 
-            # print("Generation " + str(number) + " minimum route : ", min_route)
-            # print("Generation " + str(number) + " minimum cost : ", min_cost)
+            print("Generation " + str(number) + " minimum route : ", min_route)
+            print("Generation " + str(number) + " minimum cost : ", min_cost)
 
-        # print("Final minimum route : ", min_route)
-        # print("Final minimum cost : ", min_cost)
+        print("Final minimum route : ", min_route)
+        print("Final minimum cost : ", min_cost)
 
         return min_cost
 
@@ -182,7 +182,7 @@ if __name__ == "__main__":
         "--dataset",
         type=str,
         default="att48_d.txt",
-        help="dataset to use to find route (default: five_d.txt)",
+        help="dataset to use to find route (default: att48_d.txt)",
     )
     parser.add_argument(
         "--population",
@@ -201,20 +201,20 @@ if __name__ == "__main__":
     parser.add_argument(
         "--generation",
         type=int,
-        default=1000,
-        help="generation would GA run (defalut: 10)",
+        default=5000,
+        help="generation would GA run (defalut: 5000)",
     )
     parser.add_argument(
         "--newgenerate",
         type=float,
-        default=0.2,
-        help="rate of new gene will be introduced in each generation (defalut: 0.2)",
+        default=0.8,
+        help="rate of new gene will be introduced in each generation (defalut: 0.8)",
     )
     parser.add_argument(
         "--breednumber",
         type=int,
-        default=10,
-        help="number of breed will occur in each generation (default: 4)",
+        default=40,
+        help="number of breed will occur in each generation (default: 40)",
     )
     parser.add_argument(
         "--mutationrate",
