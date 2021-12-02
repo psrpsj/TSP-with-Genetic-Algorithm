@@ -3,3 +3,4 @@ TSP-Genetic Algorithm.pdf
 *.pyc
 .vscode
 output/
+result/

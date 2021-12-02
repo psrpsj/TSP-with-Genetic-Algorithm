@@ -1,5 +1,6 @@
 import random
 import argparse
+import pandas as pd
 from geneset import GeneSet
 
 
@@ -124,10 +125,12 @@ class Genetic_Algorithm:
                 self.geneset.get_gene(index).gene[index2] = temp
                 already_mutated.append(index)
 
+        cost_info = []
         min_route = self.geneset.get_gene(0)
         min_cost = self.geneset.get_gene(0).calculate_cost()
-        # print("Initial mininum route : ", min_route)
-        # print("Initial minimum cost : ", min_cost)
+        print("Initial mininum route : ", min_route)
+        print("Initial minimum cost : ", min_cost)
+        cost_info.append({"generation": 0, "cost": min_cost})
 
         # GA Process
         for number in range(1, num_generation + 1):
@@ -165,11 +168,15 @@ class Genetic_Algorithm:
                 min_route = tmp_min_route
                 min_cost = tmp_min_cost
 
-            # print("Generation " + str(number) + " minimum route : ", min_route)
-            # print("Generation " + str(number) + " minimum cost : ", min_cost)
+            print("Generation " + str(number) + " minimum route : ", min_route)
+            print("Generation " + str(number) + " minimum cost : ", min_cost)
+            cost_info.append({"generation": number, "cost": min_cost})
 
-        # print("Final minimum route : ", min_route)
-        # print("Final minimum cost : ", min_cost)
+        print("Final minimum route : ", min_route)
+        print("Final minimum cost : ", min_cost)
+
+        cost_save = pd.DataFrame(cost_info)
+        cost_save.to_csv("./output/cost_info.csv")
 
         return min_cost
 
@@ -201,19 +208,19 @@ if __name__ == "__main__":
     parser.add_argument(
         "--generation",
         type=int,
-        default=1000,
+        default=5000,
         help="generation would GA run (defalut: 10)",
     )
     parser.add_argument(
         "--newgenerate",
         type=float,
-        default=0.2,
+        default=0.8,
         help="rate of new gene will be introduced in each generation (defalut: 0.2)",
     )
     parser.add_argument(
         "--breednumber",
         type=int,
-        default=10,
+        default=40,
         help="number of breed will occur in each generation (default: 4)",
     )
     parser.add_argument(
