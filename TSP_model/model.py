@@ -189,7 +189,7 @@ if __name__ == "__main__":
         "--dataset",
         type=str,
         default="att48_d.txt",
-        help="dataset to use to find route (default: five_d.txt)",
+        help="dataset to use to find route (default: att48_d.txt)",
     )
     parser.add_argument(
         "--population",
@@ -209,19 +209,19 @@ if __name__ == "__main__":
         "--generation",
         type=int,
         default=5000,
-        help="generation would GA run (defalut: 10)",
+        help="generation would GA run (defalut: 5000)",
     )
     parser.add_argument(
         "--newgenerate",
         type=float,
         default=0.8,
-        help="rate of new gene will be introduced in each generation (defalut: 0.2)",
+        help="rate of new gene will be introduced in each generation (defalut: 0.8)",
     )
     parser.add_argument(
         "--breednumber",
         type=int,
         default=40,
-        help="number of breed will occur in each generation (default: 4)",
+        help="number of breed will occur in each generation (default: 40)",
     )
     parser.add_argument(
         "--mutationrate",
