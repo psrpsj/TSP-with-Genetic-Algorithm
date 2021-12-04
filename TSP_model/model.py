@@ -1,6 +1,7 @@
 import random
 import argparse
 import pandas as pd
+import os
 from geneset import GeneSet
 
 
@@ -176,7 +177,9 @@ class Genetic_Algorithm:
         print("Final minimum cost : ", min_cost)
 
         cost_save = pd.DataFrame(cost_info)
-        cost_save.to_csv("./output/cost_info.csv")
+        if not os.path.exists("./output"):
+            os.mkdir("./output")
+        cost_save.to_csv("./output/cost_info.csv", index=False)
 
         return min_cost
 
@@ -208,7 +211,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--generation",
         type=int,
-        default=5000,
+        default=10000,
         help="generation would GA run (defalut: 5000)",
     )
     parser.add_argument(
