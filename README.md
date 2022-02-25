@@ -2,7 +2,7 @@
  * Created and Organized by Sangryu Park
  * CSCI 4511W - Introduction to Artificial Intelligence at UMN in Spring 2021
  * Reorganized with python in Sep., 2021
- * Project Report in [Notion](https://sangryu-notes.notion.site/Traveling-Salesperson-Problem-with-Genetic-Algorithm-4f1cbca52b894d2db22f63a9d886b41f)
+ * Project Report in [Notion](https://sangryu-notes.notion.site/Traveling-Salesperson-Problem-with-Genetic-Algorithm-4f1cbca52b894d2db22f63a9d886b41f)(Korean) and Final_report.pdf(ENG)
 
 ## Project Overview
   * Find the minimum cost routes that travel all nodes only once and return to start node
@@ -25,4 +25,4 @@ python3 model.py
   * The GA assumes all nodes are connected one to others 
 
 ## Detail
- * Detail would be updated
+ * Detail could be found in the report.
